@@ -1,0 +1,102 @@
+[package]
+name = "solana-awesome"
+version = "0.1.0"
+edition = "2024"
+description = "A single crate that collects the Solana ecosystem crates and exposes each one behind a feature flag."
+license = "Apache-2.0"
+
+[dependencies]
+# --- Core SDK crates ---
+# Major-version-only requirements so cargo can unify these with the exact
+# minor versions pinned by the client crates below.
+solana-account = { version = "4", optional = true }
+solana-commitment-config = { version = "3", optional = true }
+solana-compute-budget-interface = { version = "3", optional = true }
+solana-hash = { version = "4", optional = true }
+solana-instruction = { version = "3", optional = true }
+solana-keypair = { version = "3", optional = true }
+solana-message = { version = "4", optional = true }
+solana-native-token = { version = "3", optional = true }
+solana-pubkey = { version = "4", optional = true }
+solana-signature = { version = "3", optional = true }
+solana-signer = { version = "3", optional = true }
+solana-system-interface = { version = "3", optional = true, features = ["bincode"] }
+solana-transaction = { version = "4", optional = true }
+
+# --- Umbrella crates ---
+solana-program = { version = "4", optional = true }
+
+# --- Client crates ---
+solana-account-decoder = { version = "4.2", optional = true }
+solana-client = { version = "4.2", optional = true }
+solana-connection-cache = { version = "4.2", optional = true }
+solana-pubsub-client = { version = "4.2", optional = true }
+solana-quic-client = { version = "4.2", optional = true }
+solana-rpc-client = { version = "4.2", optional = true }
+solana-rpc-client-api = { version = "4.2", optional = true }
+solana-tpu-client = { version = "4.2", optional = true }
+solana-transaction-status = { version = "4.2", optional = true }
+solana-udp-client = { version = "4.2", optional = true }
+
+[features]
+default = []
+
+# --- Core SDK ---
+pubkey = ["dep:solana-pubkey"]
+keypair = ["dep:solana-keypair"]
+signer = ["dep:solana-signer"]
+signature = ["dep:solana-signature"]
+instruction = ["dep:solana-instruction"]
+message = ["dep:solana-message"]
+transaction = ["dep:solana-transaction"]
+hash = ["dep:solana-hash"]
+account = ["dep:solana-account"]
+commitment-config = ["dep:solana-commitment-config"]
+native-token = ["dep:solana-native-token"]
+system-interface = ["dep:solana-system-interface"]
+compute-budget-interface = ["dep:solana-compute-budget-interface"]
+
+# --- Umbrellas ---
+program = ["dep:solana-program"]
+
+# --- Clients ---
+client = ["dep:solana-client"]
+rpc-client = ["dep:solana-rpc-client"]
+rpc-client-api = ["dep:solana-rpc-client-api"]
+tpu-client = ["dep:solana-tpu-client"]
+quic-client = ["dep:solana-quic-client"]
+udp-client = ["dep:solana-udp-client"]
+connection-cache = ["dep:solana-connection-cache"]
+pubsub-client = ["dep:solana-pubsub-client"]
+transaction-status = ["dep:solana-transaction-status"]
+account-decoder = ["dep:solana-account-decoder"]
+
+# --- Groups ---
+core = [
+    "pubkey",
+    "keypair",
+    "signer",
+    "signature",
+    "instruction",
+    "message",
+    "transaction",
+    "hash",
+    "account",
+    "commitment-config",
+    "native-token",
+    "system-interface",
+    "compute-budget-interface",
+]
+clients = [
+    "client",
+    "rpc-client",
+    "rpc-client-api",
+    "tpu-client",
+    "quic-client",
+    "udp-client",
+    "connection-cache",
+    "pubsub-client",
+    "transaction-status",
+    "account-decoder",
+]
+full = ["core", "clients", "program"]
