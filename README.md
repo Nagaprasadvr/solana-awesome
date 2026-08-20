@@ -98,5 +98,29 @@ No features are enabled by default.
    above.
 5. `cargo check --features full` and `cargo test --features full`.
 
+## Keeping it current
+
+`scripts/check_crates.py` reports (read-only) what crates.io has that this
+crate doesn't: version bumps for existing dependencies, and new `solana-*`
+crates published by the trusted owners of `solana-pubkey` (so name-squatters
+never appear). Crates rejected for inclusion are recorded in
+`scripts/crates-denylist.txt` so they aren't re-surfaced.
+
+The `/update-crates` skill (`.claude/skills/update-crates/`) runs the script,
+curates the candidates, wires accepted crates through `Cargo.toml`,
+`src/lib.rs`, this README, and the smoke tests, then validates with
+`cargo test --features full`.
+
+## Release
+
+Releases are manual:
+
+1. Make sure the version in `Cargo.toml` was bumped (patch for dependency
+   requirement updates, minor for new features).
+2. `cargo test --features full`
+3. `cargo publish --dry-run`
+4. `cargo publish`
+5. `git tag v<version> && git push --tags`
+
 [`solana-pubkey`]: https://crates.io/crates/solana-pubkey
 [`solana-rpc-client`]: https://crates.io/crates/solana-rpc-client

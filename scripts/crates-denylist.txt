@@ -1,0 +1,121 @@
+# Crates rejected for inclusion in solana-awesome, one per line.
+# check_crates.py skips these; append with a reason when rejecting a candidate.
+# Criteria: we only re-export crates useful to downstream app/program
+# developers as libraries — SDK primitives, interface crates, clients, crypto.
+
+# --- Validator / node internals ---
+solana-accounts-db
+solana-bloom
+solana-bucket-map
+solana-builtins
+solana-builtins-default-costs
+solana-compute-budget
+solana-compute-budget-instruction
+solana-core
+solana-cost-model
+solana-download-utils
+solana-entry
+solana-faucet
+solana-fee
+solana-genesis
+solana-genesis-utils
+solana-geyser-plugin-manager
+solana-gossip
+solana-lattice-hash
+solana-leader-schedule
+solana-ledger
+solana-local-cluster
+solana-log-collector
+solana-measure
+solana-memory-management
+solana-merkle-tree
+solana-metrics
+solana-net-utils
+solana-notifier
+solana-packet
+solana-perf
+solana-poh
+solana-program-runtime
+solana-rayon-threadlimit
+solana-rpc                       # RPC *server*; clients are already included
+solana-runtime
+solana-runtime-transaction
+solana-send-transaction-service
+solana-shred-version
+solana-storage-bigtable
+solana-storage-proto
+solana-streamer
+solana-svm
+solana-svm-callback
+solana-svm-conformance
+solana-svm-feature-set
+solana-svm-log-collector
+solana-svm-measure
+solana-svm-metrics
+solana-svm-rent-collector
+solana-svm-timings
+solana-svm-transaction
+solana-svm-type-overrides
+solana-syscalls
+solana-timings
+solana-tls-utils
+solana-transaction-context
+solana-transaction-metrics-tracker
+solana-turbine
+solana-type-overrides
+solana-unified-scheduler-logic
+solana-unified-scheduler-pool
+solana-validator-exit
+solana-vote
+solana-wen-restart
+
+# --- On-chain program implementations; users want the *-interface crates ---
+solana-address-lookup-table-program
+solana-bpf-loader-program
+solana-compute-budget-program
+solana-config-program
+solana-loader-v4-program
+solana-stake-program
+solana-system-program
+solana-vote-program
+solana-zk-elgamal-proof-program
+solana-zk-token-proof-program
+
+# --- CLIs, binaries, and operator tools ---
+solana-clap-utils
+solana-clap-v3-utils
+solana-cli
+solana-cli-config
+solana-cli-output
+solana-faucet-cli
+solana-gossip-cli
+solana-keygen
+solana-stake-accounts
+solana-tokens
+solana-tps-client
+solana-tpu-tools-common
+solana-transaction-bench
+
+# --- Internal-use-only / build machinery ---
+solana-atomic-u64                # "For internal use only"
+solana-ed25519                   # internal curve25519-dalek fork
+solana-example-mocks
+solana-feature-set               # superseded by solana-svm-feature-set, both internal
+solana-frozen-abi
+solana-frozen-abi-macro
+solana-inline-spl
+solana-package-metadata
+solana-package-metadata-macro
+solana-sdk-macro
+solana-stable-layout             # "Internal use only"
+
+# --- Wasm/JS bindings, not for Rust consumers ---
+solana-sdk-wasm-js
+solana-system-wasm-js
+
+# --- Deprecated or pre-release ---
+solana-thin-client               # deprecated client
+solana-decode-error              # deprecated trait
+solana-votor                     # Alpenglow, 0.0.x pre-release
+solana-votor-messages            # Alpenglow, 0.0.x pre-release
+solana-votor-messsages           # typo'd duplicate of the above

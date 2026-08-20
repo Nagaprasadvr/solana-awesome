@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2024"
 description = "A single crate that collects the Solana ecosystem crates and exposes each one behind a feature flag."
 license = "Apache-2.0"
+repository = "https://github.com/Nagaprasadvr/solana-awesome"
+keywords = ["solana", "sdk", "blockchain"]
+categories = ["cryptography::cryptocurrencies", "api-bindings"]
+exclude = ["scripts/", ".claude/"]
 
 [dependencies]
 # --- Core SDK crates ---
