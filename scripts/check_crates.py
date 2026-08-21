@@ -45,6 +45,8 @@ def get(path: str) -> dict:
             return json.load(resp)
     except urllib.error.HTTPError as e:
         sys.exit(f"error: GET {path} failed: {e.code} {e.reason}")
+    except urllib.error.URLError as e:
+        sys.exit(f"error: GET {path} failed: {e.reason}")
 
 
 def load_deps() -> dict[str, str]:
@@ -76,7 +78,7 @@ def req_covers(req: str, version: str) -> bool:
     return ver_parts[: len(req_parts)] == req_parts
 
 
-def check_bumps(deps: dict[str, str]) -> list[dict]:
+def check_bumps(deps: dict[str, str]) -> list[dict[str, str]]:
     bumps = []
     for name, req in sorted(deps.items()):
         info = get(f"/crates/{name}")["crate"]
@@ -86,7 +88,7 @@ def check_bumps(deps: dict[str, str]) -> list[dict]:
     return bumps
 
 
-def trusted_owner_ids() -> tuple[list[dict], list[dict]]:
+def trusted_owners() -> tuple[list[dict], list[dict]]:
     users = get(f"/crates/{TRUST_ANCHOR}/owner_user").get("users", [])
     teams = get(f"/crates/{TRUST_ANCHOR}/owner_team").get("teams", [])
     return users, teams
@@ -98,13 +100,13 @@ def crates_owned_by(param: str, owner_id: int) -> dict[str, dict]:
     page = 1
     while True:
         data = get(f"/crates?{param}={owner_id}&per_page=100&page={page}&sort=alpha")
-        for c in data.get("crates", []):
+        crates = data.get("crates", [])
+        for c in crates:
             if c["name"].startswith("solana-"):
                 found[c["name"]] = c
-        if data.get("meta", {}).get("next_page") and data.get("crates"):
-            page += 1
-        else:
+        if not crates or not data.get("meta", {}).get("next_page"):
             return found
+        page += 1
 
 
 def is_live(crate: dict, stale_cutoff: str) -> bool:
@@ -135,7 +137,7 @@ def main() -> None:
         print(f"None — all {len(deps)} dependency requirements cover the latest stable versions.")
     print()
 
-    users, teams = trusted_owner_ids()
+    users, teams = trusted_owners()
     owner_names = [u["login"] for u in users] + [t["login"] for t in teams]
     candidates: dict[str, dict] = {}
     for u in users:
